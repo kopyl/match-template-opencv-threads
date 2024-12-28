@@ -105,59 +105,28 @@
     cv::Mat mat, templateMat;
     [image convertToMat: &mat :false];
     [templateImage convertToMat: &templateMat :false];
-
+    
+    cv::Mat greyMat;
+    cv::cvtColor(mat, greyMat, cv::COLOR_RGB2GRAY);
+    
+    cv::Mat greyTemplateMat;
+    cv::cvtColor(templateMat, greyTemplateMat, cv::COLOR_RGB2GRAY);
+    
     cv::Mat result;
-    cv::matchTemplate(mat, templateMat, result, cv::TM_CCOEFF_NORMED);
-//    
-//    for (int i = 0; i < std::min(result.rows, 5); ++i) {  // Print first 5 rows for example
-//        for (int j = 0; j < std::min(result.cols, 5); ++j) {
-//            NSLog(@"result[%d][%d] = %f", i, j, result.at<float>(i, j));
-//        }
-//    }
-
+    cv::matchTemplate(greyMat, greyTemplateMat, result, cv::TM_CCOEFF_NORMED);
+    
     double minVal, maxVal;
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
     
-//    NSLog(@"Minimum value: %f", minVal);
+    NSLog(@"%f", minVal);
 
-//    cv::Rect matchRect(maxLoc.x, maxLoc.y, templateMat.cols, templateMat.rows);
-//    cv::rectangle(mat, matchRect, cv::Scalar(255, 255, 0), 2);
+    cv::Rect matchRect(maxLoc.x, maxLoc.y, greyTemplateMat.cols, greyTemplateMat.rows);
+    cv::rectangle(greyMat, matchRect, cv::Scalar(255, 0, 0), 2);
 
-    UIImage *resultImage = MatToUIImage(mat);
+    UIImage *resultImage = MatToUIImage(greyMat);
     return resultImage;
 }
-//
-//+ (UIImage *)matchTemplate:(UIImage *)image template:(UIImage *)templateImage {
-//    cv::Mat mat, templateMat;
-//    [image convertToMat: &mat :false];
-//    [templateImage convertToMat: &templateMat :false];
-//    
-//    cv::Mat greyMat;
-//    cv::cvtColor(mat, greyMat, cv::COLOR_BGR2GRAY);
-//    
-//    cv::Mat greyTemplateMat;
-//    cv::cvtColor(templateMat, greyTemplateMat, cv::COLOR_BGR2GRAY);
-//    
-//    cv::Mat result;
-//    cv::matchTemplate(greyMat, greyTemplateMat, result, cv::TM_CCOEFF_NORMED);
-//    
-//    for (int i = 0; i < std::min(result.rows, 5); ++i) {  // Print first 5 rows for example
-//        for (int j = 0; j < std::min(result.cols, 5); ++j) {
-//            NSLog(@"result[%d][%d] = %f", i, j, result.at<float>(i, j));
-//        }
-//    }
-//    
-//    double minVal, maxVal;
-//    cv::Point minLoc, maxLoc;
-//    cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
-//
-//    cv::Rect matchRect(maxLoc.x, maxLoc.y, templateMat.cols, templateMat.rows);
-//    cv::rectangle(mat, matchRect, cv::Scalar(255, 0, 0), 2);
-//
-//    UIImage *resultImage = MatToUIImage(mat);
-//    return resultImage;
-//}
 
 
 @end
