@@ -21,7 +21,6 @@ struct ContentView: View {
     var body: some View {
         
         VStack {
-            Text("Hi")
             if let displayImage = displayImage {
                 Image(uiImage: displayImage)
                     .resizable()
