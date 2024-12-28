@@ -119,10 +119,11 @@
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
 
-    cv::Rect matchRect(maxLoc.x, maxLoc.y, greyTemplateMat.cols, greyTemplateMat.rows);
-    cv::rectangle(greyMat, matchRect, cv::Scalar(255, 0, 0), 2);
+    cv::Rect matchRect(maxLoc.x, maxLoc.y, templateMat.cols, templateMat.rows);
+    cv::rectangle(mat, matchRect, cv::Scalar(255, 0, 0, 255), 4);
 
-    UIImage *resultImage = MatToUIImage(greyMat);
+    UIImage *resultImage = MatToUIImage(mat);
+
     return resultImage;
 }
 
