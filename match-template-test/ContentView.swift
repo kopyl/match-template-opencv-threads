@@ -1,5 +1,4 @@
 import SwiftUI
-//import opencv2
 
 struct ContentView: View {
     @State private var displayImage: UIImage?
