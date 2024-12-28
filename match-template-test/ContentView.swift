@@ -18,7 +18,6 @@ struct ContentView: View {
     }
     
     var body: some View {
-        
         VStack {
             if let displayImage = displayImage {
                 Image(uiImage: displayImage)
