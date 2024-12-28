@@ -118,8 +118,6 @@
     double minVal, maxVal;
     cv::Point minLoc, maxLoc;
     cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
-    
-    NSLog(@"%f", minVal);
 
     cv::Rect matchRect(maxLoc.x, maxLoc.y, greyTemplateMat.cols, greyTemplateMat.rows);
     cv::rectangle(greyMat, matchRect, cv::Scalar(255, 0, 0), 2);
