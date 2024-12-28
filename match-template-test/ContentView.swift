@@ -32,9 +32,6 @@ struct ContentView: View {
                     Text("Find")
             }
         }
-//        onAppear{
-//            findTemplate()
-//        }
     }
 }
 
