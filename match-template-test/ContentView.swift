@@ -1,21 +1,44 @@
-//
-//  ContentView.swift
-//  match-template-test
-//
-//  Created by Oleh Kopyl on 27.12.2024.
-//
-
 import SwiftUI
+//import opencv2
 
 struct ContentView: View {
+//    @State private var displayImage: UIImage?
+    
+    func findTemplate() {
+        print("Showig image")
+        
+//        guard let image = UIImage(named: "1.PNG"),
+//                  let templateImage = UIImage(named: "plane.png") else {
+//                print("Error loading images")
+//                return
+//            }
+
+//        let result = OpenCVWrapper.matchTemplate(image, template: templateImage)
+        
+//        let grayscaleImage = OpenCVWrapper.grayscaleImg(image)
+//        let grayscaleTemplateImage = OpenCVWrapper.grayscaleImg(templateImage)
+
+//        let result = OpenCVWrapper.matchTemplate(grayscaleImage, template: grayscaleTemplateImage)
+        
+//        displayImage = result	
+    }
+    
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+//            if let displayImage = displayImage {
+//                Image(uiImage: displayImage)
+//                    .resizable()
+//            } else {
+//                Text("Image not loaded yet.")
+//            }
+//            Button(action: findTemplate) {
+//                    Text("Find")
+//            }
         }
-        .padding()
+        onAppear{
+            findTemplate()
+        }
     }
 }
 

@@ -1,0 +1,9 @@
+//
+//  match_template_test-Prefix.cpp
+//  match-template-test
+//
+//  Created by Oleh Kopyl on 28.12.2024.
+//
+
+#include <stdio.h>
+//#import <opencv2/core.hpp>

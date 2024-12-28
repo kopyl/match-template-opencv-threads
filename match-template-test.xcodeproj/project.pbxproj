@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4800C2222D2022520024F660 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4800C2212D2022520024F660 /* OpenCVWrapper.mm */; };
+		486BE5962D20073D00335854 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 486BE5942D20059C00335854 /* opencv2.framework */; };
+		486BE5992D200B6C00335854 /* 1.PNG in Resources */ = {isa = PBXBuildFile; fileRef = 486BE5982D200B6C00335854 /* 1.PNG */; };
+		486BE59E2D20138400335854 /* plane.png in Resources */ = {isa = PBXBuildFile; fileRef = 486BE59D2D20138400335854 /* plane.png */; };
 		486DC9002D1E8922006C4960 /* match_template_testApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */; };
 		486DC9022D1E8922006C4960 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486DC9012D1E8922006C4960 /* ContentView.swift */; };
 		486DC9042D1E8923006C4960 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 486DC9032D1E8923006C4960 /* Assets.xcassets */; };
@@ -14,6 +18,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4800C21E2D20221A0024F660 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		4800C2212D2022520024F660 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		4800C2232D20229E0024F660 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		483368932D1FFF26004D0537 /* match-template-test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "match-template-test-Bridging-Header.h"; sourceTree = "<group>"; };
+		483368A52D200213004D0537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		486BE5942D20059C00335854 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "match-template-test/Frameworks/opencv2.framework"; sourceTree = "<group>"; };
+		486BE5982D200B6C00335854 /* 1.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 1.PNG; path = "../../../../threads-screenshot-stitcher/sandboxes/images/sample-screenshots/1/1.PNG"; sourceTree = "<group>"; };
+		486BE59D2D20138400335854 /* plane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plane.png; path = "../../../../threads-screenshot-stitcher/sandboxes/images/sub-images/buttons/plane.png"; sourceTree = "<group>"; };
 		486DC8FC2D1E8922006C4960 /* match-template-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "match-template-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = match_template_testApp.swift; sourceTree = "<group>"; };
 		486DC9012D1E8922006C4960 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -26,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				486BE5962D20073D00335854 /* opencv2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +50,7 @@
 			children = (
 				486DC8FE2D1E8922006C4960 /* match-template-test */,
 				486DC8FD2D1E8922006C4960 /* Products */,
+				486F17562D1E94C4000C868D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,10 +65,17 @@
 		486DC8FE2D1E8922006C4960 /* match-template-test */ = {
 			isa = PBXGroup;
 			children = (
+				483368A52D200213004D0537 /* Info.plist */,
 				486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */,
 				486DC9012D1E8922006C4960 /* ContentView.swift */,
+				486BE59D2D20138400335854 /* plane.png */,
+				486BE5982D200B6C00335854 /* 1.PNG */,
 				486DC9032D1E8923006C4960 /* Assets.xcassets */,
 				486DC9052D1E8923006C4960 /* Preview Content */,
+				483368932D1FFF26004D0537 /* match-template-test-Bridging-Header.h */,
+				4800C2232D20229E0024F660 /* PrefixHeader.pch */,
+				4800C21E2D20221A0024F660 /* OpenCVWrapper.h */,
+				4800C2212D2022520024F660 /* OpenCVWrapper.mm */,
 			);
 			path = "match-template-test";
 			sourceTree = "<group>";
@@ -65,6 +86,14 @@
 				486DC9062D1E8923006C4960 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		486F17562D1E94C4000C868D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				486BE5942D20059C00335854 /* opencv2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,6 +128,7 @@
 				TargetAttributes = {
 					486DC8FB2D1E8922006C4960 = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 					};
 				};
 			};
@@ -125,6 +155,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				486BE59E2D20138400335854 /* plane.png in Resources */,
+				486BE5992D200B6C00335854 /* 1.PNG in Resources */,
 				486DC9072D1E8923006C4960 /* Preview Assets.xcassets in Resources */,
 				486DC9042D1E8923006C4960 /* Assets.xcassets in Resources */,
 			);
@@ -137,6 +169,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4800C2222D2022520024F660 /* OpenCVWrapper.mm in Sources */,
 				486DC9022D1E8922006C4960 /* ContentView.swift in Sources */,
 				486DC9002D1E8922006C4960 /* match_template_testApp.swift in Sources */,
 			);
@@ -183,6 +216,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -204,7 +238,9 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 			};
 			name = Debug;
 		};
@@ -246,6 +282,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -260,6 +297,8 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -269,12 +308,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"match-template-test/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QNMAN8CT6;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Users/olehkopyl/Dropbox/Development/Swift/iOS/match-template-test/match-template-test/Frameworks";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/match-template-test/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "match-template-test/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,7 +331,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kopyl.match-template-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "match-template-test/match-template-test-Bridging-Header.h";
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -298,12 +345,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"match-template-test/Preview Content\"";
 				DEVELOPMENT_TEAM = 9QNMAN8CT6;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = "/Users/olehkopyl/Dropbox/Development/Swift/iOS/match-template-test/match-template-test/Frameworks";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/match-template-test/PrefixHeader.pch";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "match-template-test/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -317,7 +368,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kopyl.match-template-test";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "match-template-test/match-template-test-Bridging-Header.h";
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
