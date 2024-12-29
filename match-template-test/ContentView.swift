@@ -2,7 +2,7 @@ import SwiftUI
 import PhotosUI
 
 struct ContentView: View {
-    @State private var displayImage: UIImage?
+    @State private var displayImage: UIImage? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
     
     func findTemplate(image: UIImage) {
@@ -24,7 +24,12 @@ struct ContentView: View {
                 selection: $selectedItem,
                 matching: .screenshots ,
                 photoLibrary: .shared()) {
-                    Text("Pick a photo")
+                    VStack {
+                        if displayImage == nil {
+                            Spacer()
+                        }
+                        Text("Pick a photo")
+                    }
                 }
                 .onChange(of: selectedItem) {
                     Task {
@@ -34,6 +39,7 @@ struct ContentView: View {
                                 findTemplate(image: image)
                             }
                         }
+                        selectedItem = nil
                     }
                 }
             .padding(.top, 20)
