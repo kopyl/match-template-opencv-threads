@@ -8,7 +8,6 @@ FOUNDATION_EXPORT const unsigned char opencv2VersionString[];
 
 #define AVAILABLE_CORE
 #define AVAILABLE_IMGPROC
-#define AVAILABLE_DNN
 #define AVAILABLE_FEATURES2D
 #define AVAILABLE_IMGCODECS
 #define AVAILABLE_CALIB3D
@@ -75,20 +74,6 @@ FOUNDATION_EXPORT const unsigned char opencv2VersionString[];
 #import <opencv2/LineSegmentDetector.h>
 #import <opencv2/Subdiv2D.h>
 #import <opencv2/IntelligentScissorsMB.h>
-#import <opencv2/Dnn.h>
-#import <opencv2/ClassificationModel.h>
-#import <opencv2/DetectionModel.h>
-#import <opencv2/DictValue.h>
-#import <opencv2/Image2BlobParams.h>
-#import <opencv2/KeypointsModel.h>
-#import <opencv2/Layer.h>
-#import <opencv2/Model.h>
-#import <opencv2/Net.h>
-#import <opencv2/SegmentationModel.h>
-#import <opencv2/TextDetectionModel.h>
-#import <opencv2/TextDetectionModel_DB.h>
-#import <opencv2/TextDetectionModel_EAST.h>
-#import <opencv2/TextRecognitionModel.h>
 #import <opencv2/Features2d.h>
 #import <opencv2/AKAZE.h>
 #import <opencv2/AffineFeature.h>
