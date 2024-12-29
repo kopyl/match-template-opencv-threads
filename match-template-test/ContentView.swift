@@ -5,25 +5,12 @@ struct ContentView: View {
     @State private var displayImage: UIImage?
     @State private var selectedItem: PhotosPickerItem? = nil
     
-    func findTemplate() {
-        print("Showing image")
-        
-        // Ensure the user has selected an image before proceeding
-        guard let image = displayImage else {
-            print("No image selected")
-            return
-        }
-
-        // Assuming you have the template image loaded from the app bundle or another source
+    func findTemplate(image: UIImage) {
         guard let templateImage = UIImage(named: "plane.png") else {
             print("Error loading template image")
             return
         }
-
-        // Call your OpenCVWrapper here to process the selected image
-        let result = OpenCVWrapper.matchTemplate(image, template: templateImage)
-        
-        displayImage = result
+        displayImage = OpenCVWrapper.matchTemplate(image, template: templateImage)
     }
     
     var body: some View {
@@ -32,32 +19,23 @@ struct ContentView: View {
                 Image(uiImage: displayImage)
                     .resizable()
                     .scaledToFit()
-            } else {
-                Text("Image not loaded yet.")
             }
-
             PhotosPicker(
                 selection: $selectedItem,
-                matching: .images,
+                matching: .screenshots,
                 photoLibrary: .shared()) {
                     Text("Pick a photo")
                 }
                 .onChange(of: selectedItem) { selectedItem, newItem in
                     Task {
-                        // Retrieve selected asset
                         if let selectedItem = newItem {
-                            // Retrieve selected photo
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
-                                displayImage = image
+                                findTemplate(image: image)
                             }
                         }
                     }
                 }
-
-            Button(action: findTemplate) {
-                Text("Find Template")
-            }
             .padding(.top, 20)
         }
         .padding()
