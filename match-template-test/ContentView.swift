@@ -40,7 +40,7 @@ struct CropData {
     }
 }
 
-struct ImageArea: Identifiable, Equatable {
+struct ImageArea: Equatable {
     let id: Int
     var parentImage: UIImage? = nil
     var areaCropYCoords: [Int]
