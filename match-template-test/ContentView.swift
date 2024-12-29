@@ -22,13 +22,13 @@ struct ContentView: View {
             }
             PhotosPicker(
                 selection: $selectedItem,
-                matching: .screenshots,
+                matching: .screenshots ,
                 photoLibrary: .shared()) {
                     Text("Pick a photo")
                 }
-                .onChange(of: selectedItem) { selectedItem, newItem in
+                .onChange(of: selectedItem) {
                     Task {
-                        if let selectedItem = newItem {
+                        if let selectedItem {
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
                                 findTemplate(image: image)
