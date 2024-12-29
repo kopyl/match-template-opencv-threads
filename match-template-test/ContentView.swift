@@ -116,6 +116,24 @@ func cropAllImages(imageObjects: [ImageObject]) -> [ImageArea] {
     return imageAreas
 }
 
+func combineImagesVertically(images: [UIImage]) -> UIImage? {
+    guard !images.isEmpty else { return nil }
+    
+    // Calculate total height of combined images
+    let totalHeight = images.reduce(0) { $0 + $1.size.height }
+    let maxWidth = images.max { $0.size.width < $1.size.width }?.size.width ?? 0
+    
+    let renderer = UIGraphicsImageRenderer(size: CGSize(width: maxWidth, height: totalHeight))
+    
+    return renderer.image { ctx in
+        var yOffset: CGFloat = 0
+        for image in images {
+            image.draw(at: CGPoint(x: 0, y: yOffset))
+            yOffset += image.size.height
+        }
+    }
+}
+
 func findTemplate(image: UIImage, templateType: TemplateType) -> (UIImage?, [Int])? {
     guard let templateImage = UIImage(named: templateType.rawValue) else {
         print("Error loading template image")
@@ -152,6 +170,7 @@ func cropImage(_ image: UIImage, toRect rect: CGRect) -> UIImage? {
     }
 
 struct ContentView: View {
+    @State private var displayImage: UIImage? = nil
     @State private var displayImages: [UIImage] = []
     @State private var selectedItems: [PhotosPickerItem] = []
 
@@ -159,24 +178,20 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            GeometryReader { geometry in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 0) {
-                        ForEach(displayImages, id: \.self) { image in
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: geometry.size.width, height: geometry.size.height)
-                                .onTapGesture {
-                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                                }
+            if let image = displayImage {
+                GeometryReader { geometry in
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .onTapGesture {
+                            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                         }
-                    }
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .scrollTargetLayout()
                 }
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                .scrollTargetLayout()
             }
-            .scrollTargetBehavior(.viewAligned)
+            
             
             PhotosPicker(
                 selection: $selectedItems,
@@ -209,11 +224,15 @@ struct ContentView: View {
                                 }
                             }
                         }
+                        var images: [UIImage] = []
                         let croppedImages = cropAllImages(imageObjects: selectedImageObjects)
                         for croppedImage in croppedImages {
                             if let croppedImageToDisplay = croppedImage.imageCropped {
-                                displayImages.append(croppedImageToDisplay)
+                                images.append(croppedImageToDisplay)
                             }
+                        }
+                        if let combinedAllImagesVertically = combineImagesVertically(images: images) {
+                            displayImage = combinedAllImagesVertically
                         }
                         selectedImageObjects = []
                         selectedItems = []
