@@ -798,9 +798,6 @@ extension opencv2.Subdiv2D {
 extension opencv2.Subdiv2D {
   @nonobjc public func getVoronoiFacetList(idx: [Swift.Int32], facetList: inout [[opencv2.Point2f]], facetCenters: inout [opencv2.Point2f])
 }
-extension opencv2.EM {
-  @nonobjc public func getCovs(covs: inout [opencv2.Mat])
-}
 extension opencv2.Objdetect {
   @nonobjc public class func groupRectangles(rectList: inout [opencv2.Rect2i], weights: inout [Swift.Int32], groupThreshold: Swift.Int32, eps: Swift.Double)
 }

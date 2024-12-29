@@ -8,7 +8,6 @@ FOUNDATION_EXPORT const unsigned char opencv2VersionString[];
 
 #define AVAILABLE_CORE
 #define AVAILABLE_IMGPROC
-#define AVAILABLE_ML
 #define AVAILABLE_DNN
 #define AVAILABLE_FEATURES2D
 #define AVAILABLE_IMGCODECS
@@ -76,20 +75,6 @@ FOUNDATION_EXPORT const unsigned char opencv2VersionString[];
 #import <opencv2/LineSegmentDetector.h>
 #import <opencv2/Subdiv2D.h>
 #import <opencv2/IntelligentScissorsMB.h>
-#import <opencv2/Ml.h>
-#import <opencv2/ANN_MLP.h>
-#import <opencv2/Boost.h>
-#import <opencv2/DTrees.h>
-#import <opencv2/EM.h>
-#import <opencv2/KNearest.h>
-#import <opencv2/LogisticRegression.h>
-#import <opencv2/NormalBayesClassifier.h>
-#import <opencv2/ParamGrid.h>
-#import <opencv2/RTrees.h>
-#import <opencv2/SVM.h>
-#import <opencv2/SVMSGD.h>
-#import <opencv2/StatModel.h>
-#import <opencv2/TrainData.h>
 #import <opencv2/Dnn.h>
 #import <opencv2/ClassificationModel.h>
 #import <opencv2/DetectionModel.h>
