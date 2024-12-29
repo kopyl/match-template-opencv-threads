@@ -1,29 +1,6 @@
 import SwiftUI
 import PhotosUI
 
-func requestPhotoLibraryAccess() {
-    PHPhotoLibrary.requestAuthorization { status in
-        switch status {
-        case .authorized:
-            print("Access granted.")
-        case .denied, .restricted:
-            print("Access denied or restricted.")
-        case .notDetermined:
-            print("Access not yet determined.")
-        case .limited:
-            print("Access granted with limitations.")
-        @unknown default:
-            break
-        }
-    }
-}
-
-//Button{
-//    requestPhotoLibraryAccess()
-//} label: {
-//    Text("Pick a photo")
-//}
-
 struct ContentView: View {
     @State private var displayImage: UIImage? = nil
     @State private var selectedItem: PhotosPickerItem? = nil
@@ -68,11 +45,6 @@ struct ContentView: View {
             .padding(.top, 20)
         }
         .padding()
-        .onAppear{
-            if PHPhotoLibrary.authorizationStatus() != .authorized {
-                requestPhotoLibraryAccess()
-            }
-        }
     }
 }
 
