@@ -1,8 +1,13 @@
 import SwiftUI
 import PhotosUI
 
-func findTemplate(image: UIImage) -> (UIImage?, [Int])? {
-    guard let templateImage = UIImage(named: "images/templates/plus.png") else {
+enum TemplateType: String {
+    case top = "images/templates/plus.png"
+    case bottom = "images/templates/plane.png"
+}
+
+func findTemplate(image: UIImage, templateType: TemplateType) -> (UIImage?, [Int])? {
+    guard let templateImage = UIImage(named: templateType.rawValue) else {
         print("Error loading template image")
         return nil
     }
@@ -76,7 +81,7 @@ struct ContentView: View {
 
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
-                                if let result = findTemplate(image: image) {
+                                if let result = findTemplate(image: image, templateType: TemplateType.bottom) {
                                     let processedImage = result.0
                                     let yCoordinates = result.1
                                     
