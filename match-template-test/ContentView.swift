@@ -56,6 +56,10 @@ struct ContentView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: geometry.size.width, height: geometry.size.height)
+                                .onTapGesture {
+                                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                                    print("Saving...")
+                                }
                         }
                     }
                 }
