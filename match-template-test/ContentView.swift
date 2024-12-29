@@ -1,9 +1,123 @@
 import SwiftUI
 import PhotosUI
 
-enum TemplateType: String {
+enum TemplateType: String, CaseIterable {
     case top = "images/templates/plus.png"
     case bottom = "images/templates/plane.png"
+}
+
+enum TemplateReducingDistances: Int {
+    case top = 103
+    case bottom = -86
+}
+
+struct ImageObject: Identifiable, Equatable {
+    let id: Int
+    var image: UIImage
+    var imageIdx: Int
+    var yCoords: [Int]
+    var templateType: TemplateType
+
+    init(image: UIImage, imageIdx: Int, yCoords: [Int], templateType: TemplateType) {
+        self.id = imageIdx
+        self.image = image
+        self.imageIdx = imageIdx
+        self.yCoords = yCoords
+        self.templateType = templateType
+    }
+}
+
+struct CropData {
+    let parentImage: UIImage
+    let areaCropYCoords: [Int]
+    var startCroppingFrom: Int
+    let imageWidth: Int
+    var cropHeight: Int
+    
+    init(parentImage: UIImage, areaCropYCoords: [Int]) {
+        self.parentImage = parentImage
+        self.areaCropYCoords = areaCropYCoords
+        self.startCroppingFrom = areaCropYCoords[0] - TemplateReducingDistances.top.rawValue
+        self.imageWidth = Int(parentImage.size.width)
+        self.cropHeight = areaCropYCoords[1] - areaCropYCoords[0]
+        self.cropHeight -= TemplateReducingDistances.bottom.rawValue
+    }
+}
+
+struct ImageArea: Identifiable, Equatable {
+    let id: Int
+    var parentImage: UIImage? = nil
+    var areaCropYCoords: [Int]
+    var croppingHeight: Int = 0
+    
+    var imageCropped: UIImage? = nil
+    
+    init(parentImage: UIImage, initCoorPair: [Int], imageIdx: Int) {
+        self.id = imageIdx
+        self.parentImage = parentImage
+        self.areaCropYCoords = initCoorPair
+        
+        self.crop(cropData: CropData(parentImage: parentImage, areaCropYCoords: initCoorPair))
+    }
+
+    mutating func crop(cropData: CropData) {
+        if let parentImage = self.parentImage {
+            self.imageCropped = cropImage(
+                parentImage,
+                toRect: CGRect(
+                    x: 0,
+                    y: cropData.startCroppingFrom,
+                    width: cropData.imageWidth,
+                    height: cropData.cropHeight
+                )
+            )
+        }
+    }
+}
+
+func createYCoordPairs(imageObjects: [ImageObject]) -> [[Int]] {
+    let tops = imageObjects.filter { $0.templateType == .top }
+    let bottoms = imageObjects.filter { $0.templateType == .bottom }
+    
+    let topCoords = tops.map{$0.yCoords}.flatMap{$0}
+    let bottomCoords = bottoms.map{$0.yCoords}.flatMap{$0}
+    
+    var coordPairs: [[Int]] = []
+    for i in 0..<min(topCoords.count, bottomCoords.count) {
+        let topY = topCoords[i]
+        let bottomY = bottomCoords[i]
+        coordPairs.append([topY, bottomY])
+    }
+    
+    return coordPairs
+}
+
+func splitImageObjectsByIdx(imageObjects: [ImageObject]) -> [Int: [ImageObject]] {
+    var groupedImages: [Int: [ImageObject]] = [:]
+    for imageObject in imageObjects {
+        if groupedImages[imageObject.imageIdx] == nil {
+            groupedImages[imageObject.imageIdx] = []
+        }
+        groupedImages[imageObject.imageIdx]?.append(imageObject)
+    }
+    return groupedImages
+}
+
+func cropAllImages(imageObjects: [ImageObject]) -> [ImageArea] {
+    var imageAreas: [ImageArea] = []
+    
+    let splitObjectsIntoDifferentImages = splitImageObjectsByIdx(imageObjects: imageObjects)
+    for imageIdx in splitObjectsIntoDifferentImages.keys {
+        if let imageObjectsForIdx = splitObjectsIntoDifferentImages[imageIdx] {
+            let singleImageAreas = createYCoordPairs(imageObjects: imageObjectsForIdx)
+            for singleImageArea in singleImageAreas {
+                let imageArea = ImageArea(parentImage: imageObjectsForIdx[0].image, initCoorPair: singleImageArea, imageIdx: imageIdx)
+                imageAreas.append(imageArea)
+            }
+        }
+        
+    }
+    return imageAreas
 }
 
 func findTemplate(image: UIImage, templateType: TemplateType) -> (UIImage?, [Int])? {
@@ -42,9 +156,10 @@ func cropImage(_ image: UIImage, toRect rect: CGRect) -> UIImage? {
     }
 
 struct ContentView: View {
-    @State private var displayImage: UIImage? = nil
     @State private var displayImages: [UIImage] = []
     @State private var selectedItems: [PhotosPickerItem] = []
+
+    @State private var selectedImageObjects: [ImageObject] = []
     
     var body: some View {
         VStack {
@@ -58,7 +173,6 @@ struct ContentView: View {
                                 .frame(width: geometry.size.width, height: geometry.size.height)
                                 .onTapGesture {
                                     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                                    print("Saving...")
                                 }
                         }
                     }
@@ -81,22 +195,31 @@ struct ContentView: View {
                         if oldval.count == 0 {
                             displayImages.removeAll()
                         }
-                        for selectedItem in selectedItems {
-
-                            if let data = try? await selectedItem.loadTransferable(type: Data.self),
+                        for selectedItemOrder in 0..<selectedItems.count {
+                            if let data = try? await selectedItems[selectedItemOrder].loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
-                                if let result = findTemplate(image: image, templateType: TemplateType.bottom) {
-                                    let processedImage = result.0
-                                    let yCoordinates = result.1
-                                    
-                                    print(yCoordinates)
-
-                                    if let processedImage {
-                                        displayImages.append(processedImage)
+                                for templateType in TemplateType.allCases {
+                                    if let result = findTemplate(image: image, templateType: templateType) {
+                                        let yCoordinates = result.1
+                                        
+                                        let imageObject = ImageObject(
+                                            image: image,
+                                            imageIdx: selectedItemOrder,
+                                            yCoords: yCoordinates,
+                                            templateType: templateType
+                                        )
+                                        selectedImageObjects.append(imageObject)
                                     }
                                 }
                             }
                         }
+                        let croppedImages = cropAllImages(imageObjects: selectedImageObjects)
+                        for croppedImage in croppedImages {
+                            if let croppedImageToDisplay = croppedImage.imageCropped {
+                                displayImages.append(croppedImageToDisplay)
+                            }
+                        }
+                        selectedImageObjects = []
                         selectedItems = []
                     }
                 }
