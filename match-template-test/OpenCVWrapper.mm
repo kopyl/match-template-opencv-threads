@@ -101,40 +101,67 @@
 
 }
 
-+ (UIImage *)matchTemplate:(UIImage *)image template:(UIImage *)templateImage {
++ (NSDictionary *)matchTemplate:(UIImage *)image template:(UIImage *)templateImage {
     cv::Mat mat, templateMat;
     [image convertToMat: &mat :false];
     [templateImage convertToMat: &templateMat :false];
 
+    // Convert to grayscale
     cv::Mat greyMat, greyTemplateMat;
     cv::cvtColor(mat, greyMat, cv::COLOR_RGB2GRAY);
     cv::cvtColor(templateMat, greyTemplateMat, cv::COLOR_RGB2GRAY);
 
+    // Perform template matching
     cv::Mat result;
     cv::matchTemplate(greyMat, greyTemplateMat, result, cv::TM_CCOEFF_NORMED);
-    
+
+    // Store match rectangles and Y-coordinates
     std::vector<cv::Rect> matchRects;
+    std::vector<int> topLeftYCoordinates;
     double threshold = 0.8;
 
+    // Iterate through result matrix
     for (int y = 0; y < result.rows; y++) {
         for (int x = 0; x < result.cols; x++) {
             double val = result.at<float>(y, x);
             if (val >= threshold) {  // Match found
                 matchRects.push_back(cv::Rect(x, y, templateMat.cols, templateMat.rows));
+                topLeftYCoordinates.push_back(y); // Store Y-coordinate
             }
         }
     }
 
-    cv::groupRectangles(matchRects, 0.8);
+    // Apply non-maximum suppression (adjust parameters)
+    std::vector<cv::Rect> nmsRects;
+    std::vector<int> nmsYCoordinates;
 
+    // Try a stronger threshold and overlap parameter (e.g., 0.7 threshold and 0.5 overlap)
+    cv::groupRectangles(matchRects, 1, 0.5); // Group with stricter overlap
+
+    // Collect Y-coordinates from the non-suppressed rectangles
+    for (const cv::Rect& rect : matchRects) {
+        nmsYCoordinates.push_back(rect.y); // Only Y-coordinate of top-left corner
+    }
+
+    // Draw rectangles on the image
     for (const cv::Rect& rect : matchRects) {
         cv::rectangle(mat, rect, cv::Scalar(255, 0, 0, 255), 5);
     }
-    
-    UIImage *resultImage = MatToUIImage(mat);
-    return resultImage;
-}
 
+    // Convert the Mat to UIImage
+    UIImage *resultImage = MatToUIImage(mat);
+
+    // Return the results in a dictionary with the UIImage and NSArray of Y-coordinates
+    NSMutableArray *yCoordinatesArray = [NSMutableArray array];
+    for (int y : nmsYCoordinates) {
+        [yCoordinatesArray addObject:@(y)];
+    }
+
+    return @{
+        @"image" : resultImage,
+        @"yCoordinates" : yCoordinatesArray
+    };
+}
 
 
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getOpenCVVersion;
 + (UIImage *)grayscaleImg:(UIImage *)image;
 + (UIImage *)resizeImg:(UIImage *)image :(int)width :(int)height :(int)interpolation;
-+ (UIImage *)matchTemplate:(UIImage *)image template:(UIImage *)templateImage;	
++ (NSDictionary *)matchTemplate:(UIImage *)image template:(UIImage *)templateImage;
 @end
 
 NS_ASSUME_NONNULL_END

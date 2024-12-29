@@ -1,13 +1,40 @@
 import SwiftUI
 import PhotosUI
 
-func findTemplate(image: UIImage) -> UIImage? {
+func findTemplate(image: UIImage) -> (UIImage?, [Int])? {
     guard let templateImage = UIImage(named: "images/templates/plus.png") else {
         print("Error loading template image")
         return nil
     }
-    return OpenCVWrapper.matchTemplate(image, template: templateImage)
+    guard let result = OpenCVWrapper.matchTemplate(image, template: templateImage) as? [String: Any] else {
+        print("Error matching template")
+        return nil
+    }
+    guard let matchedImage = result["image"] as? UIImage else {
+        print("Error extracting result image")
+        return nil
+    }
+    guard let yCoordinates = result["yCoordinates"] as? [NSNumber] else {
+        print("Error extracting Y-coordinates")
+        return nil
+    }
+    let yCoordinatesInt = yCoordinates.map { $0.intValue }
+
+    return (matchedImage, yCoordinatesInt)
 }
+
+func cropImage(_ image: UIImage, toRect rect: CGRect) -> UIImage? {
+        guard let cgImage = image.cgImage else { return nil }
+        let scale = image.scale
+        let scaledRect = CGRect(
+            x: rect.origin.x * scale,
+            y: rect.origin.y * scale,
+            width: rect.size.width * scale,
+            height: rect.size.height * scale
+        )
+        guard let croppedCGImage = cgImage.cropping(to: scaledRect) else { return nil }
+        return UIImage(cgImage: croppedCGImage, scale: scale, orientation: image.imageOrientation)
+    }
 
 struct ContentView: View {
     @State private var displayImage: UIImage? = nil
@@ -49,8 +76,15 @@ struct ContentView: View {
 
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
-                                if let processedImage = findTemplate(image: image) {
-                                    displayImages.append(processedImage)
+                                if let result = findTemplate(image: image) {
+                                    let processedImage = result.0
+                                    let yCoordinates = result.1
+                                    
+                                    print(yCoordinates)
+
+                                    if let processedImage {
+                                        displayImages.append(processedImage)
+                                    }
                                 }
                             }
                         }
