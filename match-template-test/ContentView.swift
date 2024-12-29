@@ -28,19 +28,15 @@ struct ImageObject: Identifiable, Equatable {
 }
 
 struct CropData {
-    let parentImage: UIImage
-    let areaCropYCoords: [Int]
-    var startCroppingFrom: Int
     let imageWidth: Int
+    var startCroppingFrom: Int
     var cropHeight: Int
     
     init(parentImage: UIImage, areaCropYCoords: [Int]) {
-        self.parentImage = parentImage
-        self.areaCropYCoords = areaCropYCoords
-        self.startCroppingFrom = areaCropYCoords[0] - TemplateReducingDistances.top.rawValue
         self.imageWidth = Int(parentImage.size.width)
         self.cropHeight = areaCropYCoords[1] - areaCropYCoords[0]
         self.cropHeight -= TemplateReducingDistances.bottom.rawValue
+        self.startCroppingFrom = areaCropYCoords[0] - TemplateReducingDistances.top.rawValue
     }
 }
 
