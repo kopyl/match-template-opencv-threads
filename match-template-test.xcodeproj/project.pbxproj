@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4800C2222D2022520024F660 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4800C2212D2022520024F660 /* OpenCVWrapper.mm */; };
+		483FD9DE2D2104200001D437 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 483FD9DD2D2104200001D437 /* images */; };
 		486BE5962D20073D00335854 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 486BE5942D20059C00335854 /* opencv2.framework */; };
-		486BE59E2D20138400335854 /* plane.png in Resources */ = {isa = PBXBuildFile; fileRef = 486BE59D2D20138400335854 /* plane.png */; };
 		486DC9002D1E8922006C4960 /* match_template_testApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */; };
 		486DC9022D1E8922006C4960 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 486DC9012D1E8922006C4960 /* ContentView.swift */; };
 		486DC9042D1E8923006C4960 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 486DC9032D1E8923006C4960 /* Assets.xcassets */; };
@@ -22,8 +22,8 @@
 		4800C2232D20229E0024F660 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		483368932D1FFF26004D0537 /* match-template-test-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "match-template-test-Bridging-Header.h"; sourceTree = "<group>"; };
 		483368A52D200213004D0537 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		483FD9DD2D2104200001D437 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		486BE5942D20059C00335854 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = "match-template-test/Frameworks/opencv2.framework"; sourceTree = "<group>"; };
-		486BE59D2D20138400335854 /* plane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plane.png; path = "../../../../threads-screenshot-stitcher/sandboxes/images/sub-images/buttons/plane.png"; sourceTree = "<group>"; };
 		486DC8FC2D1E8922006C4960 /* match-template-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "match-template-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = match_template_testApp.swift; sourceTree = "<group>"; };
 		486DC9012D1E8922006C4960 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,8 +66,8 @@
 				483368A52D200213004D0537 /* Info.plist */,
 				486DC8FF2D1E8922006C4960 /* match_template_testApp.swift */,
 				486DC9012D1E8922006C4960 /* ContentView.swift */,
-				486BE59D2D20138400335854 /* plane.png */,
 				486DC9032D1E8923006C4960 /* Assets.xcassets */,
+				483FD9DD2D2104200001D437 /* images */,
 				486DC9052D1E8923006C4960 /* Preview Content */,
 				483368932D1FFF26004D0537 /* match-template-test-Bridging-Header.h */,
 				4800C2232D20229E0024F660 /* PrefixHeader.pch */,
@@ -152,7 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				486BE59E2D20138400335854 /* plane.png in Resources */,
+				483FD9DE2D2104200001D437 /* images in Resources */,
 				486DC9072D1E8923006C4960 /* Preview Assets.xcassets in Resources */,
 				486DC9042D1E8923006C4960 /* Assets.xcassets in Resources */,
 			);

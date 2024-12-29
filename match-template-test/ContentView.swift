@@ -2,7 +2,7 @@ import SwiftUI
 import PhotosUI
 
 func findTemplate(image: UIImage) -> UIImage? {
-    guard let templateImage = UIImage(named: "plane.png") else {
+    guard let templateImage = UIImage(named: "images/templates/plus.png") else {
         print("Error loading template image")
         return nil
     }
