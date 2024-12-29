@@ -45,7 +45,6 @@ struct ContentView: View {
                         if oldval.count == 0 {
                             displayImages.removeAll()
                         }
-                        print(oldval.count, newval.count)
                         for selectedItem in selectedItems {
 
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
