@@ -1,48 +1,63 @@
 import SwiftUI
 import PhotosUI
 
+func findTemplate(image: UIImage) -> UIImage? {
+    guard let templateImage = UIImage(named: "plane.png") else {
+        print("Error loading template image")
+        return nil
+    }
+    return OpenCVWrapper.matchTemplate(image, template: templateImage)
+}
+
 struct ContentView: View {
     @State private var displayImage: UIImage? = nil
-    @State private var selectedItem: PhotosPickerItem? = nil
-    
-    func findTemplate(image: UIImage) {
-        guard let templateImage = UIImage(named: "plane.png") else {
-            print("Error loading template image")
-            return
-        }
-        displayImage = OpenCVWrapper.matchTemplate(image, template: templateImage)
-    }
+    @State private var displayImages: [UIImage] = []
+    @State private var selectedItems: [PhotosPickerItem] = []
     
     var body: some View {
         VStack {
-            if let displayImage = displayImage {
-                Image(uiImage: displayImage)
-                    .resizable()
-                    .scaledToFit()
-            }
-            PhotosPicker(
-                selection: $selectedItem,
-                matching: .screenshots ,
-                photoLibrary: .shared()) {
-                    VStack {
-                        if displayImage == nil {
-                            Spacer()
+            GeometryReader { geometry in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 0) {
+                        ForEach(displayImages, id: \.self) { image in
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width, height: geometry.size.height)
                         }
-                        Text("Pick a photo")
                     }
                 }
-                .onChange(of: selectedItem) {
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .scrollTargetLayout()
+            }
+            .scrollTargetBehavior(.viewAligned)
+            
+            PhotosPicker(
+                selection: $selectedItems,
+                maxSelectionCount: 2,
+                selectionBehavior: .ordered,
+                matching: .screenshots,
+                photoLibrary: .shared()) {
+                    Text("Pick a photo")
+                }
+                .onChange(of: selectedItems) { oldval, newval in
                     Task {
-                        if let selectedItem {
+                        if oldval.count == 0 {
+                            displayImages.removeAll()
+                        }
+                        print(oldval.count, newval.count)
+                        for selectedItem in selectedItems {
+
                             if let data = try? await selectedItem.loadTransferable(type: Data.self),
                                let image = UIImage(data: data) {
-                                findTemplate(image: image)
+                                if let processedImage = findTemplate(image: image) {
+                                    displayImages.append(processedImage)
+                                }
                             }
                         }
-                        selectedItem = nil
+                        selectedItems = []
                     }
                 }
-            .padding(.top, 20)
         }
         .padding()
     }
