@@ -106,26 +106,36 @@
     [image convertToMat: &mat :false];
     [templateImage convertToMat: &templateMat :false];
     
-    cv::Mat greyMat;
+    cv::Mat greyMat, greyTemplateMat;
     cv::cvtColor(mat, greyMat, cv::COLOR_RGB2GRAY);
-    
-    cv::Mat greyTemplateMat;
     cv::cvtColor(templateMat, greyTemplateMat, cv::COLOR_RGB2GRAY);
     
     cv::Mat result;
     cv::matchTemplate(greyMat, greyTemplateMat, result, cv::TM_CCOEFF_NORMED);
     
-    double minVal, maxVal;
-    cv::Point minLoc, maxLoc;
-    cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
+    std::vector<cv::Rect> matchRects;
+    double threshold = 0.5;
+    
+    for (int y = 0; y < result.rows; y++) {
+        for (int x = 0; x < result.cols; x++) {
+            double val = result.at<float>(y, x);
+            if (val >= threshold) {
+                matchRects.push_back(cv::Rect(x, y, templateMat.cols, templateMat.rows));
+            }
+        }	
+    }
 
-    cv::Rect matchRect(maxLoc.x, maxLoc.y, templateMat.cols, templateMat.rows);
-    cv::rectangle(mat, matchRect, cv::Scalar(255, 0, 0, 255), 4);
+    std::vector<int> indices;
+    cv::dnn::NMSBoxes(matchRects, std::vector<float>(matchRects.size(), 1.0f), 0.0f, 0.3f, indices);
 
+    for (int idx : indices) {
+        cv::rectangle(mat, matchRects[idx], cv::Scalar(255, 0, 0, 255), 4);
+    }
+    
     UIImage *resultImage = MatToUIImage(mat);
-
     return resultImage;
 }
+
 
 
 @end

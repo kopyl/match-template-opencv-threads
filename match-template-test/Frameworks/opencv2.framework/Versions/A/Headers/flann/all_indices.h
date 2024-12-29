@@ -32,12 +32,12 @@
 
 //! @cond IGNORED
 
-#include "opencv2/flann/general.h"
+#include "general.h"
 
-#include "opencv2/flann/nn_index.h"
-#include "opencv2/flann/kdtree_index.h"
-#include "opencv2/flann/kdtree_single_index.h"
-#include "opencv2/flann/kmeans_index.h"
+#include "nn_index.h"
+#include "kdtree_index.h"
+#include "kdtree_single_index.h"
+#include "kmeans_index.h"
 #include "composite_index.h"
 #include "linear_index.h"
 #include "hierarchical_clustering_index.h"
