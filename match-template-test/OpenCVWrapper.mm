@@ -105,20 +105,17 @@
     cv::Mat mat, templateMat;
     [image convertToMat: &mat :false];
     [templateImage convertToMat: &templateMat :false];
-    
-    // Convert to grayscale
+
     cv::Mat greyMat, greyTemplateMat;
     cv::cvtColor(mat, greyMat, cv::COLOR_RGB2GRAY);
     cv::cvtColor(templateMat, greyTemplateMat, cv::COLOR_RGB2GRAY);
-    
-    // Result matrix of template matching
+
     cv::Mat result;
     cv::matchTemplate(greyMat, greyTemplateMat, result, cv::TM_CCOEFF_NORMED);
     
     std::vector<cv::Rect> matchRects;
-    double threshold = 0.8;  // Match threshold (adjustable)
-    
-    // Collect rectangles where the match value exceeds the threshold
+    double threshold = 0.8;
+
     for (int y = 0; y < result.rows; y++) {
         for (int x = 0; x < result.cols; x++) {
             double val = result.at<float>(y, x);
@@ -127,14 +124,11 @@
             }
         }
     }
-    
-    // Apply Non-Maximum Suppression using groupRectangles
 
     cv::groupRectangles(matchRects, 0.8);
-    
-    // Draw rectangles for remaining matches
+
     for (const cv::Rect& rect : matchRects) {
-        cv::rectangle(mat, rect, cv::Scalar(255, 0, 0, 255), 5); // Blue rectangle
+        cv::rectangle(mat, rect, cv::Scalar(255, 0, 0, 255), 5);
     }
     
     UIImage *resultImage = MatToUIImage(mat);
